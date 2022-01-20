@@ -17,8 +17,8 @@ from src.multispan_heads import multispan_heads_mapping, decode_token_spans, rem
 logger = logging.getLogger(__name__)
 
 
-@Model.register("BertQASLOpenRelExtractor")
-class BertQASLOpenRelExtractor(Model):
+@Model.register("QumaOpenRelExtractor")
+class QumaOpenRelExtractor(Model):
     """
     This class implements single-span and multi-span answering ability.
     The code is based on NABERT+ implementation.
