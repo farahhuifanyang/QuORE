@@ -3,8 +3,8 @@ from allennlp.data.tokenizers import Token, Tokenizer
 from typing import Dict, List, Union, Tuple, Any
 from overrides import overrides
 
-@Tokenizer.register("QumaBertTokenizer")
-class QumaBertTokenizer(Tokenizer):
+@Tokenizer.register("QuoreBertTokenizer")
+class QuoreBertTokenizer(Tokenizer):
     def __init__(self, pretrained_model: str):
         self.tokenizer = BertTokenizer.from_pretrained(pretrained_model)
     

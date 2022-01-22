@@ -2,7 +2,7 @@
     "dataset_reader": {
         "type": "GeneralDatasetReader",
         "tokenizer": {
-            "type": "QumaBertTokenizer",
+            "type": "QuoreBertTokenizer",
             "pretrained_model": "bert-base-chinese"
         },
         "token_indexers": {
@@ -20,7 +20,7 @@
     "validation_dataset_reader": {
         "type": "GeneralDatasetReader",
         "tokenizer": {
-            "type": "QumaBertTokenizer",
+            "type": "QuoreBertTokenizer",
             "pretrained_model": "bert-base-chinese"
         },
         "token_indexers": {
@@ -40,7 +40,7 @@
         "batch_size": 12
     },
     "model": {
-        "type": "QumaOpenRelExtractor",
+        "type": "QuoreOpenRelExtractor",
         "bert_pretrained_model": "bert-base-chinese",
         "dropout_prob": 0.1,
         "answering_abilities": ["passage_span_extraction"]
