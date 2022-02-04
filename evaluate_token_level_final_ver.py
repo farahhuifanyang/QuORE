@@ -61,17 +61,36 @@ def calculate_global_eva_result(all_evaluations: list) -> dict:
     return dict_counter
 
 
-def eva_lorem_output(file_name: str):
+def eva_lorem_output(file_name: str, truth_span_num_id_list: list):
     with jsonlines.open(file_name + '.jsonl', 'r') as file:
         lorem_output = [line for line in file]
     
     all_evaluations = []
     answerable_evaluations = []
     unanswerable_evaluations = []
+
+    # For SAOKE evaluation of multi-span
+    saoke_1_span_evaluations = []
+    saoke_2_span_evaluations = []
+    saoke_3_span_evaluations = []
+    saoke_4_span_evaluations = []
+    saoke_5_span_evaluations = []
+    cnt_saoke_1_span_prediction_len = 0
+    cnt_saoke_2_span_prediction_len = 0
+    cnt_saoke_3_span_prediction_len = 0
+    cnt_saoke_4_span_prediction_len = 0
+    cnt_saoke_5_span_prediction_len = 0
+
     for ins in lorem_output:
         rel_id = str(ins['rel_id'])
         lorem_pred = ins['lorem_pred']
         truth_rel = ins['truth_rel']
+        pred_span_num = ins['pred_span_num']
+        truth_span_num = 0
+        for idx, id_set in enumerate(truth_span_num_id_list):
+            if int(rel_id) in id_set:
+                truth_span_num = idx + 1
+        assert truth_span_num != 0
 
         evaluation = token_level_evaluate(rel_id, lorem_pred, truth_rel)
         ins['evaluation'] = evaluation
@@ -82,6 +101,31 @@ def eva_lorem_output(file_name: str):
             unanswerable_evaluations.append(evaluation)
         # print(ins)
 
+        # For SAOKE evaluation of multi-span
+        if 'SAOKE' in file_name:
+            if truth_span_num == 1:
+                saoke_1_span_evaluations.append(evaluation)
+                cnt_saoke_1_span_prediction_len += pred_span_num
+            elif truth_span_num == 2:
+                saoke_2_span_evaluations.append(evaluation)
+                cnt_saoke_2_span_prediction_len += pred_span_num
+            elif truth_span_num == 3:
+                saoke_3_span_evaluations.append(evaluation)
+                cnt_saoke_3_span_prediction_len += pred_span_num
+            elif truth_span_num == 4:
+                saoke_4_span_evaluations.append(evaluation)
+                cnt_saoke_4_span_prediction_len += pred_span_num
+            elif truth_span_num == 5:
+                saoke_5_span_evaluations.append(evaluation)
+                cnt_saoke_5_span_prediction_len += pred_span_num
+            # elif len(truth_rel) == 6:
+            #     saoke_6_span_evaluations.append(evaluation)
+            # elif len(truth_rel) == 7:
+            #     saoke_7_span_evaluations.append(evaluation)
+            else:
+                print('SAOKE: Exceed max length of span.')
+
+
     global_eva_result = calculate_global_eva_result(all_evaluations)
     print(global_eva_result)
     global_ans_eva_result = calculate_global_eva_result(answerable_evaluations)
@@ -89,6 +133,37 @@ def eva_lorem_output(file_name: str):
     if unanswerable_evaluations:
         global_unans_eva_result = calculate_global_eva_result(unanswerable_evaluations)
         print(global_unans_eva_result)
+
+    if saoke_1_span_evaluations:
+        global_saoke_1_span_eva_result = calculate_global_eva_result(saoke_1_span_evaluations)
+        print("global_saoke_1_span_eva_result: ")
+        print(len(saoke_1_span_evaluations))
+        print(float(cnt_saoke_1_span_prediction_len) / len(saoke_1_span_evaluations))
+        print(json.dumps(global_saoke_1_span_eva_result, indent = 4))
+    if saoke_2_span_evaluations:
+        global_saoke_2_span_eva_result = calculate_global_eva_result(saoke_2_span_evaluations)
+        print("global_saoke_2_span_eva_result: ")
+        print(len(saoke_2_span_evaluations))
+        print(float(cnt_saoke_2_span_prediction_len) / len(saoke_2_span_evaluations))
+        print(json.dumps(global_saoke_2_span_eva_result, indent = 4))
+    if saoke_3_span_evaluations:
+        global_saoke_3_span_eva_result = calculate_global_eva_result(saoke_3_span_evaluations)
+        print("global_saoke_3_span_eva_result: ")
+        print(len(saoke_3_span_evaluations))
+        print(float(cnt_saoke_3_span_prediction_len) / len(saoke_3_span_evaluations))
+        print(json.dumps(global_saoke_3_span_eva_result, indent = 4))
+    if saoke_4_span_evaluations:
+        global_saoke_4_span_eva_result = calculate_global_eva_result(saoke_4_span_evaluations)
+        print("global_saoke_4_span_eva_result: ")
+        print(len(saoke_4_span_evaluations))
+        print(float(cnt_saoke_4_span_prediction_len) / len(saoke_4_span_evaluations))
+        print(json.dumps(global_saoke_4_span_eva_result, indent = 4))
+    if saoke_5_span_evaluations:
+        global_saoke_5_span_eva_result = calculate_global_eva_result(saoke_5_span_evaluations)
+        print("global_saoke_5_span_eva_result: ")
+        print(len(saoke_5_span_evaluations))
+        print(float(cnt_saoke_5_span_prediction_len) / len(saoke_5_span_evaluations))
+        print(json.dumps(global_saoke_5_span_eva_result, indent = 4))
 
     with jsonlines.open(file_name + '_evaluation.jsonl', 'w') as writer:
         writer.write_all(lorem_output)
@@ -114,11 +189,12 @@ def eva_musst_output(file_name: str):
     cnt_saoke_3_span_prediction_len = 0
     cnt_saoke_4_span_prediction_len = 0
     cnt_saoke_5_span_prediction_len = 0
-    # saoke_6_span_evaluations = []
-    # saoke_7_span_evaluations = []
+
     for ins in musst_output:
         rel_id = str(ins['query_id'])
         predicted_ability = ins['predicted_ability']
+        pred_span_num = 0
+        truth_span_num = 0
         
         musst_pred = []
         truth_rel = []
@@ -135,12 +211,15 @@ def eva_musst_output(file_name: str):
         else:
             if predicted_ability == 'passage_span_extraction':
                 musst_pred = list(ins['answer']['value'])
+                pred_span_num = 1
             else:
                 for span in ins['answer']['value']:
                     musst_pred += list(span)
+                    pred_span_num += 1
 
             for span in ins['maximizing_ground_truth']['spans']:
                 truth_rel += list(span)
+                truth_span_num += 1
 
 
         evaluation = token_level_evaluate(rel_id, musst_pred, truth_rel)
@@ -154,38 +233,25 @@ def eva_musst_output(file_name: str):
 
         # For SAOKE evaluation of multi-span
         if 'SAOKE' in file_name:
-            if len(truth_rel) == 1:
+            if truth_span_num == 1:
                 saoke_1_span_evaluations.append(evaluation)
-            elif len(truth_rel) == 2:
+                cnt_saoke_1_span_prediction_len += pred_span_num
+            elif truth_span_num == 2:
                 saoke_2_span_evaluations.append(evaluation)
-            elif len(truth_rel) == 3:
+                cnt_saoke_2_span_prediction_len += pred_span_num
+            elif truth_span_num == 3:
                 saoke_3_span_evaluations.append(evaluation)
-            elif len(truth_rel) == 4:
+                cnt_saoke_3_span_prediction_len += pred_span_num
+            elif truth_span_num == 4:
                 saoke_4_span_evaluations.append(evaluation)
-            elif len(truth_rel) == 5:
+                cnt_saoke_4_span_prediction_len += pred_span_num
+            elif truth_span_num == 5:
                 saoke_5_span_evaluations.append(evaluation)
+                cnt_saoke_5_span_prediction_len += pred_span_num
             # elif len(truth_rel) == 6:
             #     saoke_6_span_evaluations.append(evaluation)
             # elif len(truth_rel) == 7:
             #     saoke_7_span_evaluations.append(evaluation)
-            else:
-                print('SAOKE: Exceed max length of span.')
-
-        if 'SAOKE' in file_name:
-            if len(musst_pred) == 1:
-                cnt_saoke_1_span_prediction_len += len(musst_pred)
-            elif len(musst_pred) == 2:
-                cnt_saoke_2_span_prediction_len += len(musst_pred)
-            elif len(musst_pred) == 3:
-                cnt_saoke_3_span_prediction_len += len(musst_pred)
-            elif len(musst_pred) == 4:
-                cnt_saoke_4_span_prediction_len += len(musst_pred)
-            elif len(musst_pred) == 5:
-                cnt_saoke_5_span_prediction_len += len(musst_pred)
-            # elif len(musst_pred) == 6:
-            #     saoke_6_span_predictions.append(evaluation)
-            # elif len(musst_pred) == 7:
-            #     saoke_7_span_predictions.append(evaluation)
             else:
                 print('SAOKE: Exceed max length of span.')
 
