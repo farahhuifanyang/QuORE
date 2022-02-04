@@ -18,7 +18,7 @@ This is the official code repository for "Open Relation Extraction With Non-exis
 ### Task
 <figure>
     <img src="./assets/images/task.png"
-         width="200" height="100"
+         width="500" height="450"
          alt="An illustration of our task">
     <figcaption>An illustration of our task: open relation extraction with single-span, multi-span, and non-existent relationships. (We present cases in English and Chinese due to the datasets of the two languages used in this paper.)</figcaption>
 </figure>
@@ -38,10 +38,10 @@ First, install prerequisites with
 ```allennlp train configs/[config_file] -s [model_directory] --include-package src```
 
 * Predict:  
-```allennlp predict [model_directory]/model.tar.gz [test_file] --predictor machine-comprehension --cuda-device 0 --output-file [predict_directory]/predictions.jsonl --use-dataset-reader --include-package src```
+```allennlp predict [model_directory]/model.tar.gz [predict_file] --predictor machine-comprehension --cuda-device 0 --output-file [predict_directory]/predictions.jsonl --use-dataset-reader --include-package src```
 
 * Evaluate:  
-```allennlp evaluate [model_directory]/model.tar.gz [test_file] --cuda-device 0 --output-file [eval_directory]/eval.json --include-package src```
+```allennlp evaluate [model_directory]/model.tar.gz [eval_file] --cuda-device 0 --output-file [eval_directory]/eval.json --include-package src```
 
 ## Datasets
-The data format and sample data can be found in the directory *sample_data*. Due to the large volume of datasets, we do not upload them here. Please mail to <huifunny@bupt.edu.cn> for the access link.
+The data format of training, development and test sets is the same. The data format and sample data can be found in the directory *sample_data*. Due to the large volume of datasets, we do not upload them here. Please mail to <huifunny@bupt.edu.cn> for the access link.
