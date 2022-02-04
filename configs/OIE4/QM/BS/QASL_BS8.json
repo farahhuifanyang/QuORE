@@ -58,7 +58,7 @@
             "type": "bert_adam",
             "lr": 3e-05
         },
-        "patience": 10,
+        "patience": 5,
         "summary_interval": 100,
         "validation_metric": "+f1"
     }
