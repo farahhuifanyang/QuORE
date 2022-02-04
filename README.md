@@ -18,6 +18,7 @@ This is the official code repository for "Open Relation Extraction With Non-exis
 ### Task
 <figure>
     <img src="./assets/images/task.png"
+         width="200" height="100"
          alt="An illustration of our task">
     <figcaption>An illustration of our task: open relation extraction with single-span, multi-span, and non-existent relationships. (We present cases in English and Chinese due to the datasets of the two languages used in this paper.)</figcaption>
 </figure>
@@ -27,7 +28,7 @@ This is the official code repository for "Open Relation Extraction With Non-exis
 - By re-constructing some existing ORE datasets, we derive and publicize four augmented datasets with non-existent relationships and a multi-span relation dataset.
 - We propose a query-based multi-head framework **QuORE** to extract single/multi-span relations and detect non-existent relationships effectively. 
 
-## Usage
+## Model Usage
 The commands below need to be run from the root directory of the repository.
 
 First, install prerequisites with  
@@ -39,7 +40,7 @@ First, install prerequisites with
 * Predict:  
 ```allennlp predict [model_directory]/model.tar.gz [test_file] --predictor machine-comprehension --cuda-device 0 --output-file [predict_directory]/predictions.jsonl --use-dataset-reader --include-package src```
 
-* Evaluate a model:  
+* Evaluate:  
 ```allennlp evaluate [model_directory]/model.tar.gz [test_file] --cuda-device 0 --output-file [eval_directory]/eval.json --include-package src```
 
 ## Datasets
