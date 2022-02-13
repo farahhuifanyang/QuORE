@@ -52,4 +52,4 @@ allennlp evaluate [model_directory]/model.tar.gz [eval_file] --cuda-device 0 --o
 ```
 
 ## Datasets
-We publicize our re-constructed datasets in [https://github.com/farahhuifanyang/QuORE/releases/tag/datasets](release_of_datasets). The data format of training, development and test sets is the same. The data format and sample data can be found in the directory *sample_data*. 
+We publicize our re-constructed datasets in the release. The data format of training, development and test sets is the same. The data format and sample data can be found in the directory *sample_data*. 
