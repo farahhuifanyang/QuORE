@@ -61,7 +61,40 @@ def calculate_global_eva_result(all_evaluations: list) -> dict:
     return dict_counter
 
 
-def eva_lorem_output(file_name: str, truth_span_num_id_list: list):
+def eva_lorem_output(file_name: str):
+    with jsonlines.open(file_name + '.jsonl', 'r') as file:
+        lorem_output = [line for line in file]
+    
+    all_evaluations = []
+    answerable_evaluations = []
+    unanswerable_evaluations = []
+    for ins in lorem_output:
+        rel_id = str(ins['rel_id'])
+        lorem_pred = ins['lorem_pred']
+        truth_rel = ins['truth_rel']
+
+        evaluation = token_level_evaluate(rel_id, lorem_pred, truth_rel)
+        ins['evaluation'] = evaluation
+        all_evaluations.append(evaluation)
+        if 'AUG' not in rel_id:
+            answerable_evaluations.append(evaluation)
+        else:
+            unanswerable_evaluations.append(evaluation)
+        # print(ins)
+
+    global_eva_result = calculate_global_eva_result(all_evaluations)
+    print(global_eva_result)
+    global_ans_eva_result = calculate_global_eva_result(answerable_evaluations)
+    print(global_ans_eva_result)
+    if unanswerable_evaluations:
+        global_unans_eva_result = calculate_global_eva_result(unanswerable_evaluations)
+        print(global_unans_eva_result)
+
+    with jsonlines.open(file_name + '_evaluation.jsonl', 'w') as writer:
+        writer.write_all(lorem_output)
+        
+
+def eva_lorem_output_multi_span(file_name: str, truth_span_num_id_list: list):
     with jsonlines.open(file_name + '.jsonl', 'r') as file:
         lorem_output = [line for line in file]
     
