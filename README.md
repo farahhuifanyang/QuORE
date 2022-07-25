@@ -1,11 +1,12 @@
 # Open Relation Extraction With Non-existent and Multi-span Relationships
 
-This is the official code repository for "[Open Relation Extraction With Non-existent and Multi-span Relationships](https://easychair.org/publications/preprint/FbH4)" by [Huifan Yang](mailto:huifunny@bupt.edu.cn), [Da-Wei Li](mailto:daweilee@microsoft.com), [Zekun Li](mailto:lizekun@bupt.edu.cn) , [Donglin	Yang](mailto:iceberg@bupt.edu.cn) and [Bin Wu](mailto:wubin@bupt.edu.cn). Please cite & star this work if it is useful to you.
+This is the official code repository for "[Open Relation Extraction With Non-existent and Multi-span Relationships](https://easychair.org/publications/preprint/FbH4)" by [Huifan Yang](mailto:huifunny@bupt.edu.cn), [Da-Wei Li](mailto:daweilee@microsoft.com), [Zekun Li](mailto:lizekun@bupt.edu.cn) , [Donglin	Yang](mailto:iceberg@bupt.edu.cn) and [Bin Wu](mailto:wubin@bupt.edu.cn). 
+The [video talk](https://youtu.be/LSuKfeVQ-zQ) is available.
+Please cite & star this work if it is useful to you.
 
-### Citation
-```
 
-```
+<!--### Citation-->
+
 
 ## Table of contents
 - [Introduction](#introduction)
