@@ -1,7 +1,7 @@
 # Open Relation Extraction With Non-existent and Multi-span Relationships
 
 This is the official code repository for "[Open Relation Extraction With Non-existent and Multi-span Relationships](https://proceedings.kr.org/2022/37/kr2022-0037-yang-et-al.pdf)" by [Huifan Yang](mailto:huifunny@bupt.edu.cn), [Da-Wei Li](mailto:daweilee@microsoft.com), [Zekun Li](mailto:lizekun@bupt.edu.cn) , [Donglin	Yang](mailto:iceberg@bupt.edu.cn) and [Bin Wu](mailto:wubin@bupt.edu.cn). 
-The [video talk](https://youtu.be/LSuKfeVQ-zQ) and [slide](https://easychair.org/smart-slide/slide/x3PL) is available.
+The [video talk](https://youtu.be/LSuKfeVQ-zQ) and [slide](https://easychair.org/smart-slide/slide/x3PL) are available.
 Please cite & star this work if it is useful to you.
 
 
